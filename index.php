@@ -1,6 +1,6 @@
 <html>
 <body>
-<form id="form1" action="post">
+<form id="form1" method="post">
 Filter by<br>
 NAME  : <input name='name' type='text' value="<?php if (isset($_REQUEST["name"])) echo $_REQUEST["name"];?>"></input>
 BRAND  : <input name='producer' type='text' value="<?php if (isset($_REQUEST["producer"])) echo $_REQUEST["producer"];?>"></input>
