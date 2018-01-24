@@ -40,12 +40,22 @@ shell> ftype phpfile="C:\php\php.exe" -f "%1" -- %~2
 * copy php.ini-development to php.ini
 * in php.ini uncomment 'extension_dir = "ext"' and 'extension=php_pdo_mysql.dll'
 * create 'www' folder and place following files there
+
 ## Files
 * [db_info.php](db_info.php) - configures project's constants (such as number of rows per page)
 * [recreate_test_db.php](recreate_test_db.php) - creates test database with 1000 records
 * [index.php](index.php) - creates main page
+
 ## Run mini MySql and start php server
 * goto path_to_mini_server_11 and double click on mysql_start.bat
   * start sql shell in case of troubleshooting ```mysql -u root --password=root```
 * open console in 'www' folder and run ```php -S localhost:8080```
 * open browser on 'localhost:8080'
+
+## If you use standard mysql and non root user/password do following
+shell> mysql -u root -p
+```sql
+create user 'testuser'@'localhost' identified by 'testpass';
+create database dbtest;
+grant all on dbtest.* to 'testuser';
+```
