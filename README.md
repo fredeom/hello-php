@@ -21,41 +21,31 @@ Test page with filters and pagination on data retrieved from mysql database usin
 (напр. л-123|товар1|бренд1|тип1|цвет|1000|0|2017-05-01 ),
 #### необходимо создать 1000 товаров.
 
-- - -
-# Project progress
-## Environment
-* Windows XP
-* [PHP 5.4.21](https://www.hosoft.ru/download/software/php/5.4.21)
-* [Mini MySQL server](http://wiki.uniformserver.com/index.php/Mini_Servers%3A_MySQL_5.0.67_Portable)
-
-### You will likely do following configurations:
-* unzip php to e.g. 'c:\php'
-* associate .php extension with php interpretator
-```
-shell> assoc .php=phpfile
-shell> ftype phpfile="C:\php\php.exe" -f "%1" -- %~2
-```
-* add "c:\php" to windows PATH variable
-* add ".PHP" to windows PATHEXT variable
-* copy php.ini-development to php.ini
-* in php.ini uncomment 'extension_dir = "ext"' and 'extension=php_pdo_mysql.dll'
-* create 'www' folder and place following files there
-
-## Files
-* [db_info.php](db_info.php) - configures project's constants (such as number of rows per page)
-* [recreate_test_db.php](recreate_test_db.php) - creates test database with 1000 records
-* [index.php](index.php) - creates main page
-
-## Run mini MySql and start php server
-* goto path_to_mini_server_11 and double click on mysql_start.bat
-  * start sql shell in case of troubleshooting ```mysql -u root --password=root```
-* open console in 'www' folder and run ```php -S localhost:8080```
-* open browser on 'localhost:8080'
-
-## If you use standard mysql and non root user/password do following
+## Create user and grant privileges on database
 shell> mysql -u root -p
 ```sql
 create user 'testuser'@'localhost' identified by 'testpass';
 create database dbtest;
 grant all on dbtest.* to 'testuser';
+```
+
+## Environment configuration in Ubuntu 14.04
+```
+shell> sudo add-apt-repository ppa:ondrej/php
+shell> sudo apt-get update
+shell> sudo apt-get -y install php5.6 php5.6-mbstring php5.6-cli php5.6-xsl php5.6-zip php5.6-common php5.6-curl php5.6-dev php5.6-fpm php5.6-gd php5.6-intl php5.6-json php5.6-mcrypt php5.6-mysql php5.6-odbc php5.6-pgsql php5.6-readline php5.6-xcache php5-xdebug nginx mysql-server
+shell> sudo chown -R www-data: data
+shell> sudo update-alternatives --set php-config /usr/bin/php-config5.6
+shell> sudo update-alternatives --set phpize /usr/bin/phpize5.6
+shell> sudo update-alternatives --set phar.phar /usr/bin/phar.phar5.6
+shell> sudo update-alternatives --set phar /usr/bin/phar5.6
+shell> sudo update-alternatives --set php /usr/bin/php5.6
+shell> php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+shell> php composer-setup.php
+shell> php -r "unlink('composer-setup.php');"
+shell> php composer.phar create-project -sdev zendframework/skeleton-application helloworld
+shell> cp composer.phar helloworld
+shell> php composer.phar development-enable
+shell> php composer.phar require doctrine/doctrine-orm-module
+shell> php composer.phar require zendframework/zend-paginator
 ```
