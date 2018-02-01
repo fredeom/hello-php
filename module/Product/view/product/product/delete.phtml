@@ -1,0 +1,18 @@
+<?php
+$title = 'Delete product';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>Are you sure that you want to delete
+    '<?php echo $this->escapeHtml($product->itemid); ?>' |&nbsp;
+    '<?php echo $this->escapeHtml($product->name); ?>'?
+</p>
+<?php
+$url = $this->url('product', ['action' => 'delete', 'id' => $this->id]);
+?>
+<form action="<?php echo $url; ?>" method="post">
+    <input type="hidden" name="id" value="<?php echo (int) $product->id; ?>" />
+    <input type="submit" name="del" value="Yes" />
+    <input type="submit" name="del" value="No" />
+</form>

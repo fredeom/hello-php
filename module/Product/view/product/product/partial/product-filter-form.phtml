@@ -1,0 +1,33 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('product', ['action' => 'index']));
+foreach (['name', 'producer', 'type', 'pricefrom', 'priceto', 'datefrom', 'dateto'] as $name) {
+    $form->get($name)->setAttributes(['class' => 'form-control w3-input w3-border w3-margin-bottom', 'placeholder' => '...']);
+}
+$form->get('submit')->setAttributes(['class' => 'btn btn-primary']);
+$form->get('submit')->setValue('Set filter');
+$form->prepare();
+?>
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-animate-zoom w3-card-4 w3-round-xxlarge" style="width:40%">
+        <div class="w3-content w3-center w3-padding-16">
+            <span onclick="document.getElementById('id01').style.display='none'" class="w3-btn w3-display-topright w3-round-xxlarge">&times;</span>
+            <?php echo $this->form()->openTag($form); ?>
+            <?php foreach (['name', 'producer', 'type', 'pricefrom', 'priceto', 'datefrom', 'dateto'] as $name): ?>
+                <div class="form-group"><?php echo $this->formRow($form->get($name));?></div>
+            <?php endforeach; ?>
+            <?php echo $this->formRow($form->get("sortby"));?>
+            <?php echo $this->formRow($form->get("sortorder"));?>
+            <?php echo $this->formSubmit($form->get('submit')); ?>
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>
+<script>
+var modal = document.getElementById('id01');
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>

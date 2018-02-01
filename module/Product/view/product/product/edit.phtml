@@ -1,0 +1,31 @@
+<?php
+$title = 'Edit product';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('product', ['action' => 'edit', 'id' => $this->id]));
+foreach (['itemid', 'name', 'producer', 'type', 'color', 'price', 'discount', 'regdate'] as $name) {
+    $form->get($name)->setAttributes(['class' => 'form-control', 'placeholder' => '...']);
+}
+$form->get('submit')->setAttributes(['class' => 'btn btn-primary']);
+$form->get('submit')->setValue('Save');
+$form->prepare();
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('id'));
+?>
+<?php foreach (['itemid', 'name', 'producer', 'type', 'color', 'price', 'discount', 'regdate'] as $name): ?>
+<div class="form-group"><?php echo $this->formRow($form->get($name));?></div>
+<?php endforeach; ?>
+<?php
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();
+//echo $this->formRow($form->get('itemid'  ));
+//echo $this->formRow($form->get('name'    ));
+//echo $this->formRow($form->get('producer'));
+//echo $this->formRow($form->get('type'    ));
+//echo $this->formRow($form->get('color'   ));
+//echo $this->formRow($form->get('price'   ));
+//echo $this->formRow($form->get('discount'));
+//echo $this->formRow($form->get('regdate' ));

@@ -1,164 +1,44 @@
-<?php
-    $form = $this->form;
-    $form->setAttribute('action', $this->url('home'));
-    $form->get('name'     )->setAttributes(['class'=>'form-control', 'placeholder'=>'Name']);
-    $form->get('producer' )->setAttributes(['class'=>'form-control', 'placeholder'=>'Brand']);
-    $form->get('type'     )->setAttributes(['class'=>'form-control', 'placeholder'=>'Type']);
-    $form->get('pricefrom')->setAttributes(['class'=>'form-control', 'placeholder'=>'0']);
-    $form->get('priceto'  )->setAttributes(['class'=>'form-control', 'placeholder'=>'1000']);
-    $form->get('search')->setAttributes(['class'=>'btn btn-primary']);
-    $form->prepare();
-?>
-
 <div class="jumbotron">
-    <div class="row" id="filter" style="display:none">
-        <div class="col-md-6">
-            <h3><span class="zf-green">Filter by</span></h3>
-            <p>
-                <?php //echo $this->form()->render($form); ?>
-                <?php echo $this->form()->openTag($form); ?>
-                <div class="form-group">
-                    <?php //echo $this->formLabel($form->get('name')); ?>
-                    <?php //echo $this->formElement($form->get('name')); ?>
-                    <?php //echo $this->formElementErrors($form->get('name')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('name')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('producer')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('type')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('pricefrom')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('priceto')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('datefrom')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('dateto')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('sortby')); ?>
-                </div>
-                <div class="form-group">
-                    <?php echo $this->formRow($form->get('sortorder')); ?>
-                </div>
-                <?php echo $this->formElement($form->get('search')); ?>
-                <?php echo $this->form()->closeTag(); ?>
-            </p>
-        </div>
-    </div>
+    <h1><?php echo sprintf($this->translate('Welcome to %sZend Framework 2%s'), '<span class="zf-green">', '</span>') ?></h1>
+    <p><?php echo sprintf($this->translate('Congratulations! You have successfully installed the %sZF2 Skeleton Application%s. You are currently running Zend Framework version %s. This skeleton can serve as a simple starting point for you to begin building your application on ZF2.'), '<a href="https://github.com/zendframework/ZendSkeletonApplication" target="_blank">', '</a>', \Zend\Version\Version::VERSION) ?></p>
+    <p><a class="btn btn-success btn-lg" href="https://github.com/zendframework/zf2" target="_blank"><?php echo $this->translate('Fork Zend Framework 2 on GitHub') ?> &raquo;</a></p>
 </div>
 
 <div class="row">
 
-    <div class="col-md-10">
+    <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Products |
-                    <a style='color:blue' href="<?= $this->url('product', ['action' => 'add']); ?>">add</a>
-                </h3>
+                <h3 class="panel-title"><?php echo $this->translate('Follow Development') ?></h3>
             </div>
             <div class="panel-body">
-                <table class="table table-striped">
-                    <tr id="tablehead">
-                        <th>ItemId</th>
-                        <th>Name</th>
-                        <th>Brand</th>
-                        <th>Type</th>
-                        <th>Price</th>
-                        <th>Discount</th>
-                        <th>Color</th>
-                        <th>Registry date</th>
-                    </tr>
-                    <?php foreach ($this->products as $p): ?>
-                        <tr>
-                            <td><?= $p->getItemId();   ?></td>
-                            <td><?= $p->getName();     ?></td>
-                            <td><?= $p->getProducer(); ?></td>
-                            <td><?= $p->getType();     ?></td>
-                            <td><?= $p->getPrice();    ?></td>
-                            <td><?= $p->getDiscount(); ?></td>
-                            <td><?= $p->getColor();    ?></td>
-                            <td><?= $p->getRegDate();  ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-                <?= $this->paginationControl($products,
-                    'Sliding', 'application/partial/paginator',
-                    ['route'  => 'application', 'filters'=> $this->filters]); ?>
+                <p><?php echo sprintf($this->translate('Zend Framework 2 is under active development. If you are interested in following the development of ZF2, there is a special ZF2 portal on the official Zend Framework website which provides links to the ZF2 %swiki%s, %sdev blog%s, %sissue tracker%s, and much more. This is a great resource for staying up to date with the latest developments!'), '<a href="http://framework.zend.com/wiki/display/ZFDEV2/Home">', '</a>', '<a href="http://framework.zend.com/zf2/blog">', '</a>', '<a href="https://github.com/zendframework/zf2/issues">', '</a>') ?></p>
+                <p><a class="btn btn-success pull-right" href="http://framework.zend.com/zf2" target="_blank"><?php echo $this->translate('ZF2 Development Portal') ?> &raquo;</a></p>
             </div>
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title" style="color:transparent;">Options</h3>
+                <h3 class="panel-title"><?php echo $this->translate('Discover Modules') ?></h3>
             </div>
             <div class="panel-body">
-                <table class="table table-striped">
-                    <tr>
-                        <th style="color:transparent">===</th>
-                        <th style="color:transparent">===</th>
-                    </tr>
-                    <?php foreach ($this->products as $p): ?>
-                        <tr>
-                            <td><a href="<?= $this->url('product', ['action' => 'edit',  'id' => $p->getId()]) . "?" . $this->filters; ?>">Edit</a></td>
-                            <td><a href="<?= $this->url('product', ['action' => 'delete','id' => $p->getId()]) . "?" . $this->filters; ?>">Del</a></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
+                <p><?php echo sprintf($this->translate('The community is working on developing a community site to serve as a repository and gallery for ZF2 modules. The project is available %son GitHub%s. The site is currently live and currently contains a list of some of the modules already available for ZF2.'), '<a href="https://github.com/zendframework/modules.zendframework.com">', '</a>') ?></p>
+                <p><a class="btn btn-success pull-right" href="http://modules.zendframework.com/" target="_blank"><?php echo $this->translate('Explore ZF2 Modules') ?> &raquo;</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><?php echo $this->translate('Help &amp; Support') ?></h3>
+            </div>
+            <div class="panel-body">
+                <p><?php echo sprintf($this->translate('If you need any help or support while developing with ZF2, you may reach us via IRC: %s#zftalk on Freenode%s. We\'d love to hear any questions or feedback you may have regarding the beta releases. Alternatively, you may subscribe and post questions to the %smailing lists%s.'), '<a href="irc://irc.freenode.net/zftalk">', '</a>', '<a href="http://framework.zend.com/wiki/display/ZFDEV/Mailing+Lists">', '</a>') ?></p>
+                <p><a class="btn btn-success pull-right" href="http://webchat.freenode.net?channels=zftalk" target="_blank"><?php echo $this->translate('Ping us on IRC') ?> &raquo;</a></p>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    function addFilterButton() {
-        var f = $("#filter");
-        var el = $("<button/>");
-        el.text("Show Filter");
-        el.addClass("btn btn-success");
-        el.click((e) => {
-            f.toggle();
-        });
-        f.before(el);
-        f.hide();
-    }
-    function addColumnSortOrder() {
-        var jsortby    = $("input[name='sortby']");
-        var jsortorder = $("input[name='sortorder']");
-        var sortby    = jsortby.val();
-        var sortorder = jsortorder.val();
-        var cols = ['itemid', 'name', 'producer', 'type', 'price', 'discount', 'color', 'regdate'];
-        $("th", $("#tablehead")).each(function (index, value) {
-            var sp = $("<span>");
-            sp.attr('col', cols[index]);
-            sp.css('cursor', 'pointer');
-            sp.css('color', cols[index] == sortby ? (sortorder == "ASC" ? "#444488" : "#448844"): '#aaaaaa');
-            $(value).attr('col', cols[index]);
-            $(value).wrapInner(sp).click((e) => {
-                var col = $(e.target).attr('col');
-                if (col == sortby) {
-                    jsortorder.val(sortorder == "DESC" ? "ASC" : "DESC");
-                } else {
-                    jsortby.val(col);
-                    jsortorder.val("DESC");
-                }
-                $("form").submit();
-            });
-        });
-    }
-    function onBootstrap() {
-        addFilterButton();
-        addColumnSortOrder();
-    }
-    $(document).ready(onBootstrap);
-</script>

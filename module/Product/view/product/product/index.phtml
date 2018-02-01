@@ -1,0 +1,81 @@
+<?php
+$title = 'Products';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('product', array('action'=>'add'));?>">Add new product</a> |
+    <button class="btn btn-primary" onclick="document.getElementById('id01').style.display='block'">Filter options</button>
+</p>
+
+<?php
+echo $this->partial("product/product/partial/product-filter-form", ['form' => $form]);
+?>
+
+<style> tr:nth-child(even) {background: #CCC} </style>
+<table class="table">
+    <tr id="tablehead">
+        <th>Item Id</th>
+        <th>Name</th>
+        <th>Producer</th>
+        <th>Type</th>
+        <th>Color</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Reg.Date</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php foreach ($products as $product) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($product->itemid);?></td>
+            <td><?php echo $this->escapeHtml($product->name);?></td>
+            <td><?php echo $this->escapeHtml($product->producer);?></td>
+            <td><?php echo $this->escapeHtml($product->type);?></td>
+            <td><?php echo $this->escapeHtml($product->color);?></td>
+            <td><?php echo $this->escapeHtml($product->price);?></td>
+            <td><?php echo $this->escapeHtml($product->discount);?></td>
+            <td><?php echo $this->escapeHtml($product->regdate->format("Y-m-d H:i:s"));?></td>
+            <td>
+                <a href="<?php echo $this->url('product',
+                    array('action'=>'edit', 'id' => $product->id));?>">Edit</a>
+                <a href="<?php echo $this->url('product',
+                    array('action'=>'delete', 'id' => $product->id));?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+<div class="row">
+    <?= $this->paginationControl($products, 'Sliding', 'product/product/partial/paginator',
+        ['route' => 'product', 'action' => 'index', 'filter' => $this->filter]) ?>
+</div>
+<script>
+    function onStart() {
+        var jsortby    = $("input[name='sortby']");
+        var jsortorder = $("input[name='sortorder']");
+        var sortby    = jsortby.val();
+        var sortorder = jsortorder.val();
+        var cols = ['itemid', 'name', 'producer', 'type', 'color', 'price', 'discount', 'regdate'];
+        $("th", $("#tablehead")).each(function (index, value) {
+            var sp = $("<span>");
+            if (cols[index] == undefined) {
+                return;
+            }
+            sp.attr('col', cols[index]);
+            sp.css('cursor', 'pointer');
+            sp.css('color', cols[index] == sortby ? (sortorder == "ASC" ? "#444488" : "#448844"): '#aaaaaa');
+            $(value).attr('col', cols[index]);
+            $(value).wrapInner(sp).click((e) => {
+                var col = $(e.target).attr('col');
+                if (col == sortby) {
+                    jsortorder.val(sortorder == "DESC" ? "ASC" : "DESC");
+                } else {
+                    jsortby.val(col);
+                    jsortorder.val("DESC");
+                }
+                document.forms[0].submit.click();
+            });
+        });
+    }
+    $(document).ready(onStart);
+</script>

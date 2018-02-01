@@ -1,0 +1,24 @@
+<?php
+$title = 'Add new product';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('product', ['action' => 'add']));
+foreach (['itemid', 'name', 'producer', 'type', 'color', 'price', 'discount', 'regdate'] as $name) {
+    $form->get($name)->setAttributes(['class' => 'form-control', 'placeholder' => '...']);
+}
+$form->get('submit')->setAttributes(['class' => 'btn btn-primary']);
+$form->get('submit')->setValue('Add');
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<p>
+<?php foreach (['itemid', 'name', 'producer', 'type', 'color', 'price', 'discount', 'regdate'] as $name): ?>
+<div class="form-group"><?php echo $this->formRow($form->get($name));?></div>
+<?php endforeach; ?>
+</p>
+<?php
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();

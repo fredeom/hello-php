@@ -1,59 +1,72 @@
 <?php
-namespace Application;
 
-use Zend\Router\Http\Literal;
-use Zend\Router\Http\Segment;
-use Zend\ServiceManager\Factory\InvokableFactory;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-
-return [
+return array(
     'router' => [
         'routes' => [
             'home' => [
-                'type' => Literal::class,
+                'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
                     ],
                 ],
             ],
+            // The following is a route to simplify getting started creating
+            // new controllers and actions without needing to create a new
+            // module. Simply drop new controllers in, and you can access them
+            // using the path /application/:controller/:action
             'application' => [
-                'type'    => Segment::class,
+                'type'    => 'Literal',
                 'options' => [
-                    'route'    => '/application[/:action]',
+                    'route'    => '/application',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'default' => [
+                        'type'    => 'Segment',
+                        'options' => [
+                            'route'    => '/[:controller[/:action]]',
+                            'constraints' => [
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ],
+                            'defaults' => [
+                            ],
+                        ],
                     ],
                 ],
             ],
-            'product' => [
-                'type' => Segment::class,
-                'options' => [
-                    'route' => '/product[/:action[/:id]]',
-                    'constraints' => [
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id' => '[0-9]*'
-                    ],
-                    'defaults' => [
-                        'controller' => Controller\ProductController::class,
-                        'action' => 'index'
-                    ]
-                ]
-            ]
-        ],
-    ],
-    'controllers' => [
-        'factories' => [
-            Controller\IndexController::class => Controller\Factory\IndexControllerFactory::class,
-            Controller\ProductController::class => Controller\Factory\ProductControllerFactory::class
         ],
     ],
     'service_manager' => [
-        'factories' => [
-            Service\ProductManager::class => Service\Factory\ProductManagerFactory::class,
+        'abstract_factories' => [
+            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+            'Zend\Log\LoggerAbstractServiceFactory',
+        ],
+        'aliases' => [
+            'translator' => 'MvcTranslator',
+        ],
+    ],
+    'translator' => [
+        'locale' => 'en_US',
+        'translation_file_patterns' => [
+            [
+                'type'     => 'gettext',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.mo',
+            ],
+        ],
+    ],
+    'controllers' => [
+        'invokables' => [
+            'Application\Controller\Index' => 'Application\Controller\IndexController'
         ],
     ],
     'view_manager' => [
@@ -72,18 +85,10 @@ return [
             __DIR__ . '/../view',
         ],
     ],
-    'doctrine' => [
-        'driver' => [
-            __NAMESPACE__ . '_driver' => [
-                'class' => AnnotationDriver::class,
-                'cache' => 'array',
-                'paths' => [__DIR__ . '/../src/Entity']
+    'console' => [
+        'router' => [
+            'routes' => [
             ],
-            'orm_default' => [
-                'drivers' => [
-                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
-                ]
-            ]
-        ]
-    ]
-];
+        ],
+    ],
+);
